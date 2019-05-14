@@ -3,7 +3,6 @@ import requests
 import json
 import re
 import bs4
-import tkinter as tk
 
 #=================================================================================
 #DATA AQUISITION
@@ -35,6 +34,7 @@ class CatalogParsingClass:
 		self._thread_time_list = []
 		self._thread_number_replies = []
 		self._thread_image_link_list = []
+		self._thread_image_ext_list = []
 		for current_thread in self._list_all_threads:
 			self._thread_number_list.append(current_thread['no'])
 			self._thread_name_list.append(current_thread['name'])
@@ -54,7 +54,18 @@ class CatalogParsingClass:
 				self._thread_subject_list.append(bs)
 			self._thread_time_list.append(current_thread['time'])
 			self._thread_number_replies.append(current_thread['replies'])
-			self._thread_image_link_list.append(current_thread['tim'])
+			try:
+				bs = current_thread['tim']
+			except:
+				bs = ''
+			finally:
+				self._thread_image_link_list.append(bs)
+			try:
+				extension = current_thread['ext']
+			except:
+				extension = ''
+			finally:
+				self._thread_image_ext_list.append(extension)
 	
 	def return_thread_raw(self, thread_number):
 		return self._list_all_threads[thread_number]
@@ -72,4 +83,5 @@ class CatalogParsingClass:
 			self._thread_subject_list[thread_number],
 			self._thread_time_list[thread_number],
 			self._thread_number_replies[thread_number],
-			self._thread_image_link_list[thread_number])
+			self._thread_image_link_list[thread_number],
+			self._thread_image_ext_list[thread_number])
